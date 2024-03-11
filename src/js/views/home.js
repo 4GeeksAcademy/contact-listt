@@ -1,15 +1,40 @@
 import React from "react";
-import rigoImage from "../../img/rigo-baby.jpg";
+import { useEffect, useContext } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import { Navbar } from "../component/navbar";
 
-export const Home = () => (
-	<div className="text-center mt-5">
-		<h1>Hello Rigo!</h1>
-		<p>
-			<img src={rigoImage} />
-		</p>
-		<a href="#" className="btn btn-success">
-			If you see this green button, bootstrap is working
-		</a>
-	</div>
-);
+
+export const Home = () => {
+
+	const { store, actions } = useContext(Context)
+
+	useEffect(() => {
+		   actions.getContact()
+		console.log(store.contactList);
+	}, [])
+
+
+
+	const listData = store.contactList.map(contact => {
+
+		return (
+			<div>
+				<h1>{contact.full_name}</h1>
+				<h1>{contact.email}</h1>
+				<h1>{contact.address}</h1>
+				<h1>{contact.phone}</h1>
+			</div>
+		)
+
+	})
+
+	return <>
+		<Navbar />
+		<div>
+			{listData}
+
+		</div>
+	</>
+};
+export default Home;

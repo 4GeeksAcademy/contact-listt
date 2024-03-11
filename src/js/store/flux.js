@@ -12,18 +12,57 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			contactList: [
+				// {
+				// 	  "full_name": "cristian",
+                //     "email": "cris@gmail.com",
+                //     "agenda_slug": "cris",
+                //     "address":"47568 NW 34ST, 33434 FL, USA",
+                //     "phone":"7864445566"
+				// }
+			],
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			getContact: async () => {
+				
+
+				const res = await fetch('https://playground.4geeks.com/apis/fake/contact/agenda/jean')
+				const data = await res.json()
+				setStore({contactList: data})
 			},
+
+			createContact: async (contactName) => {
+				const store = getStore()
+
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${contactName}`, {
+					method: 'POST',
+					body: JSON.stringify([{
+
+						"full_name": contactName,
+						"email": `${contactName}dave@gmail.com`,
+						"agenda_slug": "my_super_agenda",
+						"address":"47568 NW 34ST, 33434 FL, USA",
+						"phone":"7864445566"
+
+					}]),
+
+					headers: {
+						'Content-Type': 'application/json'
+					}, 
+				})
+				
+			},
+
+
+
+
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
