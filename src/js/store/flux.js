@@ -14,14 +14,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			contactList: [
-				// {
-				// 	  "full_name": "cristian",
-                //     "email": "cris@gmail.com",
-                //     "agenda_slug": "cris",
-                //     "address":"47568 NW 34ST, 33434 FL, USA",
-                //     "phone":"7864445566"
-				// }
+
 			],
+
+			currentAgenda: ""
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -29,35 +25,92 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getContact: async () => {
-				
+			getAgenda: async (nameAgenda) => {
 
-				const res = await fetch('https://playground.4geeks.com/apis/fake/contact/agenda/jean')
+
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${nameAgenda}`)
 				const data = await res.json()
-				setStore({contactList: data})
+				console.log(data);
+				setStore({ contactList: data })
 			},
 
 			createContact: async (contactName) => {
 				const store = getStore()
 
-				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${contactName}`, {
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/`, {
 					method: 'POST',
-					body: JSON.stringify([{
+					body: JSON.stringify({
 
-						"full_name": contactName,
-						"email": `${contactName}dave@gmail.com`,
-						"agenda_slug": "my_super_agenda",
-						"address":"47568 NW 34ST, 33434 FL, USA",
-						"phone":"7864445566"
+						"full_name": contactName.fullName,
+						"email": contactName.email,
+						"agenda_slug": contactName.agendaName,
+						"address": contactName.address,
+						"phone": contactName.phone
 
-					}]),
-
+					}),
 					headers: {
 						'Content-Type': 'application/json'
-					}, 
+					},
 				})
-				
 			},
+
+			editContact: async (contact, id) => {
+				const store = getStore()
+
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/${id}`, {
+					method: 'PUT',
+					body: JSON.stringify({
+
+						"full_name": contact.fullName,
+						"email": contact.email,
+						"agenda_slug": contact.agendaName,
+						"address": contact.address,
+						"phone": contact.phone
+
+
+					}),
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				})
+
+			},
+
+			saveCurrentAgenda: async (agenda) => {
+				const store = getStore()
+				setStore({ ...store, currentAgenda: agenda })
+			},
+
+
+
+
+			deleteAllContact: async () => {
+				const store = getStore()
+
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				},)
+			},
+
+			deleteOneContact: async (contact) => {
+				const store = getStore()
+
+				const contactFiltered = store.contactList.filter(item => item != contact)
+
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/${contact.id}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				},)
+				console.log(contactFiltered);
+				setStore({ contactList: contactFiltered })
+			},
+
+
 
 
 
