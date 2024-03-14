@@ -47,9 +47,14 @@ export const Home = () => {
 							<p className="text-secondary">✉️{contact.email}</p>
 						</div>
 						<div className="d-flex justify-content-between gap-5 ms-5">
-							<Link to={"/EditContact/" + contact.id}>
-								<span className="ms-5">✏️</span>
-							</Link>
+
+							<button className="btn-styles" onClick={() => actions.saveEdit(contact.id)}>
+								<Link to={"/EditContact/" + contact.id}>
+									<span className="ms-5">✏️</span>
+								</Link>
+
+							</button>
+
 							<span type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								🗑️
 							</span>

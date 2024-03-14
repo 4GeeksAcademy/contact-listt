@@ -19,7 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			currentAgenda: "" || localStorage.getItem("agenda") ,
 
-
+			edit: null
 
 		},
 
@@ -81,11 +81,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			saveEdit: (id) => {
+				const store = getStore()
+
+				const contactToEdit = store.contactList.find((contact) => {
+					return id === contact.id 
+				})
+				setStore({edit: contactToEdit})
+			},
+
 			saveCurrentAgenda: async (agenda) => {
 				const store = getStore()
 				setStore({ ...store, currentAgenda: agenda })
 			},
-
 
 
 
