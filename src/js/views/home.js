@@ -10,13 +10,14 @@ export const Home = () => {
 
 	const { store, actions } = useContext(Context)
 
-	const [agenda, setAgenda] = useState(agenda)
+	const [agenda, setAgenda] = useState(store.currentAgenda)
 
 	const deleteContact = (contact) => {
 		actions.deleteOneContact(contact)
 	}
 
 	const handlerGetAgenda = (evt) => {
+		localStorage.setItem("agenda", evt.target.value)
 		setAgenda(evt.target.value)
 
 	}

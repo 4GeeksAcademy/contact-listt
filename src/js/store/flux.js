@@ -17,8 +17,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			],
 
-			currentAgenda: ""
+			currentAgenda: "" || localStorage.getItem("agenda") ,
+
+
+
 		},
+
+
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
@@ -87,12 +92,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			deleteAllContact: async () => {
 				const store = getStore()
 
-				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/`, {
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${store.currentAgenda}`, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 				},)
+				setStore({ contactList: [] })
+				
 			},
 
 			deleteOneContact: async (contact) => {
