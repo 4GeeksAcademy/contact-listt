@@ -17,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			],
 
-			currentAgenda: "jean" || localStorage.getItem("agenda"),
+			currentAgenda: "" || localStorage.getItem("agenda"),
 
 			edit: []
 
@@ -30,10 +30,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getAgenda: async () => {
+			getAgenda: async (agenda) => {
 				const store = getStore()
 
-				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${store.currentAgenda}`)
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${agenda}`)
 				const data = await res.json()
 				console.log(data);
 				setStore({ contactList: data })

@@ -26,18 +26,15 @@ export const Home = () => {
 	
 	useEffect(() => {
 		const loadingData = async () => {
-	
 			try {
-				res = await	actions.getAgenda()
+				res = await	actions.getAgenda(agenda)
 				res2 = await actions.saveCurrentAgenda(agenda)
 			} catch (error) {
 				console.log(error);
 			}
-
 		}
 		 loadingData()
-	}, [])
-
+	}, [agenda])
 
 
 
