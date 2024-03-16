@@ -12,6 +12,7 @@ export const Home = () => {
 
 	const [agenda, setAgenda] = useState(store.currentAgenda)
 
+
 	const deleteContact = (contact) => {
 		actions.deleteOneContact(contact)
 	}
@@ -22,16 +23,26 @@ export const Home = () => {
 
 	}
 
+	
 	useEffect(() => {
-		actions.getAgenda(agenda)
-		actions.saveCurrentAgenda(agenda)
-	}, [agenda])
+		const loadingData = async () => {
+	
+			try {
+				res = await	actions.getAgenda()
+				res2 = await actions.saveCurrentAgenda(agenda)
+			} catch (error) {
+				console.log(error);
+			}
+
+		}
+		 loadingData()
+	}, [])
 
 
 
 
 
-	const listData = store.contactList.map((contact, index) => {
+	  const listData = store.contactList.map((contact, index) => {
 
 		return (
 			<div key={index} className="container border border-dark-subtle w-50  ">

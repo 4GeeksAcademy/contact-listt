@@ -17,9 +17,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			],
 
-			currentAgenda: "" || localStorage.getItem("agenda") ,
+			currentAgenda: "jean" || localStorage.getItem("agenda"),
 
-			edit: null
+			edit: []
 
 		},
 
@@ -30,13 +30,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getAgenda: async (nameAgenda) => {
+			getAgenda: async () => {
+				const store = getStore()
 
-
-				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${nameAgenda}`)
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${store.currentAgenda}`)
 				const data = await res.json()
 				console.log(data);
 				setStore({ contactList: data })
+
+
 			},
 
 			createContact: async (contactName) => {
@@ -85,9 +87,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore()
 
 				const contactToEdit = store.contactList.find((contact) => {
-					return id === contact.id 
+					return id === contact.id
 				})
-				setStore({edit: contactToEdit})
+				setStore({ edit: contactToEdit })
 			},
 
 			saveCurrentAgenda: async (agenda) => {
@@ -107,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				},)
 				setStore({ contactList: [] })
-				
+
 			},
 
 			deleteOneContact: async (contact) => {
