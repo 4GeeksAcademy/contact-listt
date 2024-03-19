@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
@@ -9,13 +9,13 @@ export const Demo = () => {
 	const { store, actions } = useContext(Context);
 	const [contact, setContact] = useState({agendaName: store.currentAgenda });
 
-	// let navigate = Navigate()
+	 const navigate = useNavigate()
 
 	const addContact = (evt) => {
 		evt.preventDefault()
 		console.log(contact);
 		actions.createContact(contact)
-		// navigate("/")
+		 navigate("/")
 		
 	}
 

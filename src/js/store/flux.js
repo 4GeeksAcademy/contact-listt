@@ -59,6 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						'Content-Type': 'application/json'
 					},
 				})
+				
 			},
 
 			editContact: async (contact, id) => {
