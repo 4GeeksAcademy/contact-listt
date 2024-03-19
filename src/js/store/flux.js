@@ -17,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			],
 
-			currentAgenda: "" || localStorage.getItem("agenda"),
+			currentAgenda: "jean" || localStorage.getItem("agenda"),
 
 			edit: []
 
