@@ -1,9 +1,13 @@
 import React from "react";
 import { useEffect, useContext, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faTrashCan, faLocationDot, faPhoneVolume, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Navbar } from "../component/navbar";
+
+
 
 
 export const Home = () => {
@@ -23,26 +27,27 @@ export const Home = () => {
 
 	}
 
-	
+
 	useEffect(() => {
 		const loadingData = async () => {
-	
+
 			try {
-				res = await	actions.getAgenda()
-				res2 = await actions.saveCurrentAgenda(agenda)
+				const res1 = await actions.getAgenda(agenda)
+				const res2 = await actions.saveCurrentAgenda(agenda)
+
 			} catch (error) {
 				console.log(error);
 			}
 
 		}
-		 loadingData()
-	}, [])
+		loadingData()
+	}, [agenda])
 
 
 
 
 
-	  const listData = store.contactList.map((contact, index) => {
+	const listData = store.contactList.map((contact, index) => {
 
 		return (
 			<div key={index} className="container border border-dark-subtle w-50  ">
@@ -53,21 +58,21 @@ export const Home = () => {
 					<div className="d-flex justify-content-between">
 						<div className="me-5 pe-5 ms-2">
 							<h5 className="mx-2">{contact.full_name}</h5>
-							<p className="text-secondary">📍{contact.address}</p>
-							<p className="text-secondary">📞{contact.phone}</p>
-							<p className="text-secondary">✉️{contact.email}</p>
+							<p className="text-secondary"><FontAwesomeIcon className="px-1" icon={faLocationDot} />  {contact.address}</p>
+							<p className="text-secondary"><FontAwesomeIcon className="px-1" icon={faPhoneVolume} />  {contact.phone}</p>
+							<p className="text-secondary"><FontAwesomeIcon className="px-1" icon={faEnvelope} />  {contact.email}</p>
 						</div>
 						<div className="d-flex justify-content-between gap-5 ms-5">
 
 							<button className="btn-styles" onClick={() => actions.saveEdit(contact.id)}>
 								<Link to={"/EditContact/" + contact.id}>
-									<span className="ms-5">✏️</span>
+									<FontAwesomeIcon className="text-dark" icon={faPen} />
 								</Link>
 
 							</button>
 
 							<span type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								🗑️
+								<FontAwesomeIcon icon={faTrashCan} />
 							</span>
 
 							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,7 +114,7 @@ export const Home = () => {
 
 		<div>
 			{listData}
-			<h1 className="text-center ">{store.contactList.length === 0 ? "No hay contactos... " : ""}</h1>
+			<h1 className="text-center ">{store.contactList.length === 0 ? "No hay contactos.... " : ""}</h1>
 
 		</div>
 	</>

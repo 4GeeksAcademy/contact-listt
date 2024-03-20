@@ -19,8 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			currentAgenda: "jean" || localStorage.getItem("agenda"),
 
-			edit: []
+			edit: [],
 
+			contactos: []
 		},
 
 
@@ -30,15 +31,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getAgenda: async () => {
+			getAgenda: async (agenda) => {
 				const store = getStore()
 
-				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${store.currentAgenda}`)
+				const res = await fetch(`https://playground.4geeks.com/apis/fake/contact/agenda/${agenda}`)
 				const data = await res.json()
 				console.log(data);
 				setStore({ contactList: data })
-
-
 			},
 
 			createContact: async (contactName) => {
@@ -59,6 +58,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						'Content-Type': 'application/json'
 					},
 				})
+					
+				if(res.ok) getActions().getAgenda(store.currentAgenda)
+
+
 			},
 
 			editContact: async (contact, id) => {
@@ -74,13 +77,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"address": contact.address,
 						"phone": contact.phone
 
-
 					}),
 					headers: {
 						'Content-Type': 'application/json'
 					},
 				})
 
+				if(res.ok) getActions().getAgenda(store.currentAgenda)
+				
+				
 			},
 
 			saveEdit: (id) => {

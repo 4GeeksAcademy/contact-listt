@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
@@ -7,16 +7,16 @@ import "../../styles/demo.css";
 
 export const Demo = () => {
 	const { store, actions } = useContext(Context);
-	const [contact, setContact] = useState({agendaName: store.currentAgenda });
+	const [contact, setContact] = useState({ agendaName: store.currentAgenda });
 
-	// let navigate = Navigate()
+	const navigate = useNavigate()
 
 	const addContact = (evt) => {
 		evt.preventDefault()
 		console.log(contact);
 		actions.createContact(contact)
-		// navigate("/")
-		
+		navigate("/")
+
 	}
 
 	return <>
@@ -26,7 +26,7 @@ export const Demo = () => {
 
 			<div className="col-12">
 				<form className="row g-3 needs-validation" novalidate>
-					
+
 					<div className="col-12">
 						<label for="validationCustomUsername" className="form-label">Full Name</label>
 						<div className="input-group has-validation">
@@ -72,7 +72,7 @@ export const Demo = () => {
 						<button
 							onClick={addContact}
 							className="btn btn-primary w-100" type="submit">Save</button>
-					
+
 					</div>
 					<Link to="/">
 						<span className="btn btn-primary btn-lg" href="#" role="button">
