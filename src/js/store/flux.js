@@ -19,8 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			currentAgenda: "jean" || localStorage.getItem("agenda"),
 
-			edit: []
+			edit: [],
 
+			contactos: []
 		},
 
 
@@ -37,8 +38,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await res.json()
 				console.log(data);
 				setStore({ contactList: data })
-
-
 			},
 
 			createContact: async (contactName) => {
@@ -59,7 +58,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						'Content-Type': 'application/json'
 					},
 				})
-				
+					
+				if(res.ok) getActions().getAgenda(store.currentAgenda)
+
+
 			},
 
 			editContact: async (contact, id) => {
@@ -75,13 +77,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"address": contact.address,
 						"phone": contact.phone
 
-
 					}),
 					headers: {
 						'Content-Type': 'application/json'
 					},
 				})
 
+				if(res.ok) getActions().getAgenda(store.currentAgenda)
+				
+				
 			},
 
 			saveEdit: (id) => {

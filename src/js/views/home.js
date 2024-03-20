@@ -32,8 +32,9 @@ export const Home = () => {
 		const loadingData = async () => {
 
 			try {
-				res1 = await actions.getAgenda(agenda)
-				res2 = await actions.saveCurrentAgenda(agenda)
+				const res1 = await actions.getAgenda(agenda)
+				const res2 = await actions.saveCurrentAgenda(agenda)
+
 			} catch (error) {
 				console.log(error);
 			}
